@@ -24,6 +24,7 @@ import {
 import {createProfileService} from "../src/services/productServices.js";
 import {removeWishList, saveWishList, wishList} from "../src/controllers/WishListController.js";
 import {removeCartList, saveCartList, updateCartList, cartList} from "../src/controllers/CartListController.js";
+import {FeaturesList} from "../src/controllers/FeaturesController.js";
 const router = express.Router()
 
 //User
@@ -65,6 +66,10 @@ router.post ("/saveCartList", auth, saveCartList)
 router.post ("/updateCartList/:cartID", auth, updateCartList)
 router.post ("/removeCartList", auth, removeCartList)
 router.get("/cartList", auth, cartList)
+
+//Features
+router.get('/FeaturesList',FeaturesList)
+
 
 
 export default router;

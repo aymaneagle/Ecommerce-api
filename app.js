@@ -17,6 +17,12 @@ import mongoose from "mongoose";
 import {PORT} from "./src/config/config.js"
 //Node.js built-in module to work with file paths
 import * as path from "node:path";
+
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 import dotenv from "dotenv";
 dotenv.config();
 // Security Middleware
@@ -57,10 +63,14 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     console.error('MongoDB connection failed:', err);
 });
 
-// app.use(express.static('client/dist'));
-// //Add React Front End Routing
-// app.get('*', function(req, res) {
-//     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
-// })
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, "react-Frontend", "dist")));
+
+
+// Catch-all for React frontend (Express v5 compatible)
+app.use((req, res, next) => {
+    res.sendFile(path.resolve(__dirname, "react-Frontend", "dist", "index.html"));
+});
+
 
 export default app;
